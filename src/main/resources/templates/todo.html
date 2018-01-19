@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>Spring Sample</title>
+</head>
+<body>
+	<span th:text="${message}">message</span>
+	<h2>todoリスト</h2>
+
+	<form method="post" action="#" th:action="@{add}">
+		<input name="title" type="text" maxlength="20" placeholder="タイトル" required="required" />
+		<input name="details" type="text" maxlength="100" placeholder="詳細" required="required" />
+		<button>追加</button>
+	</form>
+	<form method="post" action="#" th:action="@{update}">
+		<table border="1">
+			<tr>
+				<th>ID</th>
+				<th>タイトル</th>
+				<th>詳細</th>
+				<th>完了</th>
+			</tr>
+			<tr th:each="todo, stat: ${todoList}">
+				<td th:text="${todo.id}">id</td>
+				<td><input th:name="formList[__${stat.index}__].title" th:value="${todo.title}" required="required" /></td>
+				<td><input th:name="formList[__${stat.index}__].details" th:value="${todo.details}" required="required" /></td>
+				<td><input th:name="formList[__${stat.index}__].finished" type="checkbox" th:checked="${todo.finished} == true" /></td>
+				<input th:name="formList[__${stat.index}__].id" type="hidden" th:value="${todo.id}" />
+			</tr>
+		</table>
+		<button>更新</button>
+	</form>
+</body>
+</html>
